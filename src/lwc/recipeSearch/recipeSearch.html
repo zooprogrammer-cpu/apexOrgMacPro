@@ -1,0 +1,35 @@
+<template>
+    <lightning-card title = "Search Recipe"> 
+        <div class="slds-form-element__control slds-p-around_x-small">
+            <lightning-input
+            type="search"
+            onchange = {handleKeyChange}
+            label="Search"
+            value = {searchKey}
+            placeholder="Search recipe by ingredients"
+          ></lightning-input>        
+        </div>
+        <div>
+            <lightning-button label="Search" onclick={fetchRecipesByIngredients} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Get Random Recipe" title="Primary action" onclick={fetchRandomRecipe} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        <lightning-layout multiple-rows>
+            <template for:each={recipes} for:item="recipe">
+              <lightning-layout-item size="12" key={recipe.id}>
+                <c-recipe
+                  recipe-id={recipe.id}
+                  image={recipe.image}
+                  summary={recipe.summary}
+                  time={recipe.readyInMinutes}
+                  price={recipe.pricePerServing}
+                  title={recipe.title}
+                  dish-types={recipe.dishTypes}
+                  diets={recipe.diets}
+                ></c-recipe>
+              </lightning-layout-item>
+            </template>
+          </lightning-layout>
+        
+    </lightning-card>
+    
+</template>

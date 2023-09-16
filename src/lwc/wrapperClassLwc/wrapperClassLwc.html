@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title = 'Wrapper Class'>
+        <template if:true ={data}>
+            <lightning-datatable
+            key-field = "Id"
+            data = {data}
+            columns = {columns}
+            ></lightning-datatable>
+        </template>
+        <template if:true ={error}>
+            {error}
+        </template>
+    </lightning-card>
+</template>
