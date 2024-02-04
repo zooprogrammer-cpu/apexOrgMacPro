@@ -1,4 +1,4 @@
-public with sharing class CurrencyConversioncontroller {
+public with sharing class CurrencyConverter {
     @AuraEnabled
     public static map<string,Object> retrieveCurrencyConversionrates(String strEndPointURL){
         map<string,Object> mapjsondata=new map<string,Object>();
