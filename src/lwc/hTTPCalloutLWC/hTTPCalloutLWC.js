@@ -13,6 +13,7 @@ export default class HTTPCalloutLWC extends LightningElement {
     @track toCurrencyValue;
     @track options = options;
     @track toCurrencyOptions = options;
+    @track conversionData;
 
     handleFromCurrencyChange(event) {
         this.fromCurrencyValue = event.detail.value;
@@ -29,8 +30,8 @@ export default class HTTPCalloutLWC extends LightningElement {
         // rest api call
         const queryValue = `function=CURRENCY_EXCHANGE_RATE&from_currency=${this.fromCurrencyValue}&to_currency=${this.toCurrencyValue}`;
         const API_KEY =  `ENNH2GLEOOFFK1V6`;
-        fetch('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=ENNH2GLEOOFFK1V6',
-        // fetch(`https://www.alphavantage.co/query?${queryValue}&apikey=${API_KEY}`,
+        // fetch('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=JPY&apikey=ENNH2GLEOOFFK1V6',
+        fetch(`https://www.alphavantage.co/query?${queryValue}&apikey=${API_KEY}`,
         {
             method:"GET",
             headers : {
@@ -48,11 +49,23 @@ export default class HTTPCalloutLWC extends LightningElement {
                 From_Currency_Code : '',
                 To_Currency_Name : '',
                 To_Currency_Code : '',
-                Last_Refreshed : ''
+                Last_Refreshed : '',
+                Exchange_rate : ''
             };
             window.console.log('jsonresponse ==>' , JSON.stringify(jsonResponse));
-            let exchangeData = jsonResponse['Realtime currency Exchange Rate'];
+            let exchangeData = jsonResponse['Realtime Currency Exchange Rate'];
             window.console.log('exchangeData ==>' + JSON.stringify(exchangeData));
+
+            objData.From_Currency_Code=exchangeData['1. From_Currency Code'];
+            objData.From_Currency_Name=exchangeData['2. From_Currency Name'];
+            objData.To_Currency_Name=exchangeData['4. To_Currency Name'];
+            objData.To_Currency_Code=exchangeData['3. To_Currency Code'];
+            objData.Last_Refreshed=exchangeData['6. Last Refreshed'];
+            objData.Exchange_rate=exchangeData['5. Exchange Rate'];
+            this.conversionData=objData;
+            window.console.log('objData => '+JSON.stringify(objData));
+
+
         }).catch((error)=>{
             window.console.log('callout error' ,JSON.stringify(error));
         })
