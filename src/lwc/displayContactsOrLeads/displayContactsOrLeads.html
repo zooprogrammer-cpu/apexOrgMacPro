@@ -1,0 +1,32 @@
+<!--
+ - 
+ -->
+
+<!-- Display Contacts Or Leads -->
+
+<template>
+    <lightning-card>
+        <lightning-button class="slds-var-p-around_medium" label="Get List" onclick={getList}></lightning-button>
+        <div class="slds-var-p-around_medium">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered width:100%">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>title</th>
+                    <th>city</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <template for:each={mapMarkers} for:item="marker">
+                    <tr key={marker.Id}>
+                        <td>{marker.Id}</td>
+                        <td>{marker.title}</td>
+                        <td>{marker.location.City}</td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </lightning-card>
+</template>
