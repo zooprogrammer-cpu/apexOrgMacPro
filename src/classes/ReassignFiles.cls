@@ -10,18 +10,39 @@ public with sharing class ReassignFiles {
         // Create a map to store ContentDocumentId in contentLinks to Order Record Id
         Map<Id,Id> contentToOrderMap = new Map<Id,Id>();
 
+        // Collect all order numbers
+        Set<String> orderNumbers = new Set<String>();
+        for (ContentDocumentLink link : contentLinks) {
+            String orderNumber = link.ContentDocument.Title.replaceAll('\\(\\d+\\)', '').trim();
+            orderNumbers.add(orderNumber);
+        }
+
+        // Query all orders at once
+        Map<String, Order> orderMap = new Map<String, Order>();
+        for (Order order : [SELECT Id, RPM_Order_Number__c FROM Order WHERE RPM_Order_Number__c IN :orderNumbers]) {
+            orderMap.put(order.RPM_Order_Number__c, order);
+        }
+
         for (ContentDocumentLink link : contentLinks) {
             //Extract order number from the ContentDocument
-            String orderNumber = link.ContentDocument.Title.replaceAll('\\(\\d+\\)', '').trim();
+//            String orderNumber = link.ContentDocument.Title.replaceAll('\\(\\d+\\)', '').trim();
 
             // Query the order record where the RPM_Order_Number__c matches the order number from the document
-            List<Order> orders = [SELECT Id, RPM_Order_Number__c FROM Order WHERE RPM_Order_Number__c =: orderNumber LIMIT 1];
+//            List<Order> orders = [SELECT Id, RPM_Order_Number__c FROM Order WHERE RPM_Order_Number__c =: orderNumber LIMIT 1];
 
-            if (!orders.isEmpty()) {
-                contentToOrderMap.put(link.ContentDocumentId, orders[0].Id);
-                System.debug('contentToOrderMap' + contentToOrderMap);
-            }
-            else {
+//            if (!orders.isEmpty()) {
+//                contentToOrderMap.put(link.ContentDocumentId, orders[0].Id);
+//                System.debug('contentToOrderMap' + contentToOrderMap);
+//            }
+//            else {
+//                System.debug('Not matching order found for document:' + orderNumber);
+//            }
+
+            String orderNumber = link.ContentDocument.Title.replaceAll('\\(\\d+\\)', '').trim();
+            Order order = orderMap.get(orderNumber);
+            if (order != null) {
+                contentToOrderMap.put(link.ContentDocumentId, order.Id);
+            } else {
                 System.debug('Not matching order found for document:' + orderNumber);
             }
         }
