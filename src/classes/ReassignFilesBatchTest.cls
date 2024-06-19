@@ -15,7 +15,10 @@ private class ReassignFilesBatchTest {
         );
         insert originalOrder;
 
-        // Create three PDF documents and link them to the original order
+// Create three PDF documents and link them to the original order
+        List<ContentVersion> contentVersions = new List<ContentVersion>();
+        List<ContentDocumentLink> contentDocumentLinks = new List<ContentDocumentLink>();
+
         for (Integer i = 0; i < 3; i++) {
             // Create a ContentVersion record
             ContentVersion contentVersion = new ContentVersion(
@@ -23,18 +26,24 @@ private class ReassignFilesBatchTest {
                     PathOnClient = '/' + 'testfile' + i,
                     VersionData = Blob.valueOf('Test file content ' + i)
             );
-            insert contentVersion;
+            contentVersions.add(contentVersion);
+        }
 
+        insert contentVersions;
+
+        for (ContentVersion contentVersion : contentVersions) {
             ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
             contentDocumentLink.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
             contentDocumentLink.LinkedEntityId = originalOrder.Id;
             contentDocumentLink.ShareType = 'V';
             contentDocumentLink.Visibility = 'AllUsers';
-            insert contentDocumentLink;
-
+            contentDocumentLinks.add(contentDocumentLink);
         }
 
-        // Create three orders with the same account as the original order
+        insert contentDocumentLinks;
+
+        // Create orders with the same account as the original order
+        List<Order> ordersToInsert = new List<Order>();
         for (Integer i = 0; i < 3; i++) {
             Order newOrder = new Order(
                     AccountId = acc.Id,
@@ -42,8 +51,10 @@ private class ReassignFilesBatchTest {
                     EffectiveDate = Date.today(),
                     Status = 'Draft'
             );
-            insert newOrder;
+            ordersToInsert.add(newOrder);
         }
+
+        insert ordersToInsert;
 
     }
     @IsTest
