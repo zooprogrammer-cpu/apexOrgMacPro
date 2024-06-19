@@ -1,5 +1,9 @@
 /**
- * 
+ * Description: This class is used to reassign files from one Order record to other Order records.
+ * ------------------------------------------------------------------------------------------------------------------
+ * Date            Developer                 Company                       Comments
+ * ------------------------------------------------------------------------------------------------------------------
+ * 06/19/2024      Ash Basnyat               Coastal                - Original Version
  */
 
 global class ReassignFilesBatch implements Database.Batchable<SObject> {
@@ -16,7 +20,6 @@ global class ReassignFilesBatch implements Database.Batchable<SObject> {
     global void execute(Database.BatchableContext context, List<SObject> scope) {
         try {
             List<ContentDocumentLink> contentLinks = (List<ContentDocumentLink>) scope;
-            System.debug('contentLinks' + contentLinks);
 
             // Create a map to store ContentDocumentId in contentLinks to Order Record Id
             Map<Id,Id> contentToOrderMap = new Map<Id,Id>();
@@ -48,11 +51,9 @@ global class ReassignFilesBatch implements Database.Batchable<SObject> {
             List<ContentDocumentLink> linksToDelete = new List<ContentDocumentLink>();
 
             for (Id contentId: contentToOrderMap.keySet()) {
-                System.debug('contentId' + contentId);
                 ContentDocumentLink newLink = new ContentDocumentLink();
                 newLink.ContentDocumentId = contentId; //document  Id
                 newLink.LinkedEntityId = contentToOrderMap.get(contentId); //Order Id
-                System.debug('contentToOrderMap.get(contentId);' + contentToOrderMap.get(contentId));
                 newLink.ShareType = 'I';
                 newLinks.add(newLink);
 
@@ -75,16 +76,22 @@ global class ReassignFilesBatch implements Database.Batchable<SObject> {
 
             if (!newLinks.isEmpty()) {
                 insert newLinks;
-                System.debug('inserted' + newLinks.size() + 'new contentDocumentLinks');
             }
-            else {
-                System.debug('No new contentDocumentLinks to insert');
+
+            // Print Unsuccessful files
+            for (ContentDocumentLink link : contentLinks) {
+                String orderNumber = link.ContentDocument.Title.replaceAll('\\(\\d+\\)', '').trim();
+                Order order = orderMap.get(orderNumber);
+                if (order == null) {
+                    System.debug('File Name: ' + link.ContentDocument.Title + ' could not be reassigned');
+                }
             }
+
         }
         catch (Exception e) {
             System.debug('An error occurred:' + e.getMessage());
         }
-        
+
     }
 
     global void finish(Database.BatchableContext context) {
