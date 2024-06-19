@@ -73,11 +73,31 @@ private class ReassignFilesBatchTest {
 
         // Assertions to verify that files were reassigned to matching orders
         // ...
-        Order order0 = [SELECT Id FROM Order WHERE RPM_Order_Number__c = 'TestOrder1230' ];
 
-        ContentDocumentLink contentDocumentLink = [SELECT Id, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId = :order0.Id LIMIT 1];
-        System.assertNotEquals(null, contentDocumentLink, 'ContentDocumentLink should have been created');
-        System.assertEquals(order0.Id, contentDocumentLink.LinkedEntityId, 'ContentDocumentLink should be linked to the Order');
+        ////
+        for (Integer i=0; i<3; i++) {
+            String rpmOrderNumber= 'TestOrder123' + i;
+            Order order = [SELECT Id FROM Order WHERE RPM_Order_Number__c =: rpmOrderNumber];
+            List<ContentDocumentLink> newLink = [
+                    SELECT ContentDocumentId, LinkedEntityId
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId = :order.Id
+            ];
+
+//            System.assertEquals(1, newLink.size(), 'The file should have been reassigned to the new Order');
+//            System.assertEquals(order.Id, newLink[0].ContentDocumentId, 'The ContentDocumentId should match');
+            System.debug('newLink:' + newLink[0]);
+            System.assertNotEquals(null, newLink[0], 'ContentDocumentLink should have been created');
+            System.assertEquals(order.Id, newLink[0].LinkedEntityId, 'ContentDocumentLink should be linked to the Order');
+        }
+
+
+        ////
+//        Order order0 = [SELECT Id FROM Order WHERE RPM_Order_Number__c = 'TestOrder1230' ];
+//
+//        ContentDocumentLink contentDocumentLink = [SELECT Id, LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId = :order0.Id LIMIT 1];
+//        System.assertNotEquals(null, contentDocumentLink, 'ContentDocumentLink should have been created');
+//        System.assertEquals(order0.Id, contentDocumentLink.LinkedEntityId, 'ContentDocumentLink should be linked to the Order');
 
 
 
