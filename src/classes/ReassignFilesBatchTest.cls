@@ -22,21 +22,36 @@ private class ReassignFilesBatchTest {
             // Create a ContentVersion record
             ContentVersion contentVersion = new ContentVersion(
                     Title = 'TestOrder123' + i,
-                    PathOnClient = 'testfile' + i + '.pdf',
+                    PathOnClient = '/' + 'testfile' + i,
                     VersionData = Blob.valueOf('Test file content ' + i)
             );
             insert contentVersion;
 
+            // Add a delay to give the platform enough time to create the associated ContentDocument record
+//            Test.startTest();
+//            Integer start = Limits.getCpuTime();
+//            while(Limits.getCpuTime() - start < 2000) {}
+//            Test.stopTest();
+
+            //////
+            ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
+            contentDocumentLink.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
+            contentDocumentLink.LinkedEntityId = originalOrder.Id;
+            contentDocumentLink.ShareType = 'V';
+            contentDocumentLink.Visibility = 'AllUsers';
+            insert contentDocumentLink;
+            ////////
+
             // Retrieve the ContentDocumentId from the ContentVersion record
-            ContentDocument contentDoc = [SELECT Id FROM ContentDocument WHERE Id = :contentVersion.ContentDocumentId LIMIT 1];
+//            ContentDocument contentDoc = [SELECT Id FROM ContentDocument WHERE Id = :contentVersion.ContentDocumentId LIMIT 1];
 
             // Create a ContentDocumentLink record linked to the Order
-            ContentDocumentLink contentLink = new ContentDocumentLink(
-                    ContentDocumentId = contentDoc.Id,
-                    LinkedEntityId = originalOrder.Id,
-                    ShareType = 'V'
-            );
-            insert contentLink;
+//            ContentDocumentLink contentLink = new ContentDocumentLink(
+//                    ContentDocumentId = contentDoc.Id,
+//                    LinkedEntityId = originalOrder.Id,
+//                    ShareType = 'V'
+//            );
+//            insert contentLink;
         }
 
         // Create three orders with the same account as the original order
