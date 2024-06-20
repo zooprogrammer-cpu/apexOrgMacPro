@@ -50,4 +50,17 @@ global class ExploreRestAccountController {
         Contact[] contactRecords;
     }
 
+    @HttpDelete
+    global static void toDelete() {
+        RestRequest req = RestContext.request;
+        String recordId =  req.requestURI.substring(req.requestURI.lastIndexOf('/') + 1);
+        delete [SELECT Id FROM Account WHERE Id =: recordId];
+        // Send response saying record got deleted. Can enhance this by actually checking if it got deleted.
+        // No need to return anything since we are using RestResponse
+        RestResponse res = RestContext.response;
+        res.statusCode = 200;
+        res.responseBody = Blob.valueOf(recordId + ' got deleted');
+
+    }
+
 }
