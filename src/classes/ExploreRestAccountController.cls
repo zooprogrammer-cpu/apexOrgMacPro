@@ -19,15 +19,17 @@ global class ExploreRestAccountController {
 
     // When a callout is made to the endpoint above, if the method is POST, invoke this method
     @HttpPost
-    global static Account doPost(String Name, String Industry, String Rating) {
-        Account a = new Account();
-        a.Name = Name;
-        a.Industry = Industry;
-        a.Rating = Rating;
-        insert a;
-        return a;
+    global static Account doPost(RequestWrapper requestPayload) {
+        insert requestPayload.accountRecord;
+        insert requestPayload.contactRecords;
 
+        return requestPayload.accountRecord;
     }
 
+    // Wrapper class for complex parameters from third party
+    global class RequestWrapper {
+        Account accountRecord;
+        Contact[] contactRecords;
+    }
 
 }
