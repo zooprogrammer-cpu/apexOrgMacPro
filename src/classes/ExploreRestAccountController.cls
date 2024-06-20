@@ -19,11 +19,29 @@ global class ExploreRestAccountController {
 
     // When a callout is made to the endpoint above, if the method is POST, invoke this method
     @HttpPost
-    global static Account doPost(RequestWrapper requestPayload) {
+    global static void doPost(RequestWrapper requestPayload) {
+        /*
         insert requestPayload.accountRecord;
         insert requestPayload.contactRecords;
 
         return requestPayload.accountRecord;
+         */
+        RestResponse res = RestContext.response;
+        Account a = requestPayload.accountRecord;
+        insert a;
+        Contact[] c = requestPayload.contactRecords;
+        insert c;
+
+        if ( a!=null && c!= null) {
+            res.statusCode = 200;
+            res.responseBody = Blob.valueOf(JSON.serialize(a));
+        }
+        else {
+            res.statusCode = 500;
+            res.responseBody = Blob.valueOf('Something went wrong');
+
+        }
+
     }
 
     // Wrapper class for complex parameters from third party
