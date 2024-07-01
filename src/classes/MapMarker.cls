@@ -1,4 +1,3 @@
-
 public class MapMarker {
     @AuraEnabled
     public Id Id;

@@ -1,4 +1,3 @@
-
 public with sharing class LWCMapController {
     // This will never change. Pass the object API Name.
     @AuraEnabled

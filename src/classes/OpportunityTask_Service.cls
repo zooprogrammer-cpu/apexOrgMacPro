@@ -2,4 +2,6 @@ public with sharing class OpportunityTask_Service implements TaskCreatorLSP_Inte
     public void createTasks( SObject record) {
         System.debug('Creating opp tasks');
     }
+
+
 }

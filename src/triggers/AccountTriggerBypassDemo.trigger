@@ -1,6 +1,7 @@
 trigger AccountTriggerBypassDemo on Account (before update) {
     // Using Custom Switch
     Process_Switches__c processSwitch = Process_Switches__c.getInstance(UserInfo.getProfileId()); // get the value for the current user's profile
+    System.debug('processSwitch' + processSwitch);
     if (!processSwitch.Account_Process_Bypass__c) { // We don't want to bypass the trigger switch
         System.debug('The trigger is going to run');
     }

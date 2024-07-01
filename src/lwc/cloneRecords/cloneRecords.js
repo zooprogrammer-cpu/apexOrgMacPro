@@ -10,7 +10,7 @@ export default class CloneRecords extends LightningElement {
   @api className;
 
   handleCloneRecord() {
-    cloneRelatedRecordsController({"recordId" :this.recordId, "className" : this.className}).then(()=>{
+    cloneRecordsController({"recordId" :this.recordId, "className" : this.className}).then(()=>{
       console.log('Cloned Record Success')
       this.handleCloneRelatedRecord();
     })

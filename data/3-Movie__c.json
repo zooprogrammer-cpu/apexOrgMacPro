@@ -1,0 +1,15 @@
+{
+  "attributes": {
+    "type": "Movie__c"
+  },
+  "records": [
+    {
+      "attributes": {
+        "type": "Movie__c",
+        "referenceId": "MovieRef1"
+      },
+      "Name": "Terminator",
+      "Contact__c": "ContactRef28"
+    }
+  ]
+}
