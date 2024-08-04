@@ -25,6 +25,7 @@ private class AddPrimaryContactTest {
 
     @IsTest
     static void testAddPrimaryContactNY() {
+        AddPrimaryContact.doChainJob = false;
         // Query for the test contact and a test account with BillingState 'NY'
         Contact testContact = [SELECT Id, LastName FROM Contact WHERE Email='test@example.com' LIMIT 1];
         Account testAccountNY = [SELECT Id FROM Account WHERE BillingState='NY' LIMIT 1];
@@ -44,6 +45,7 @@ private class AddPrimaryContactTest {
 
     @IsTest
     static void testAddPrimaryContactCA() {
+        AddPrimaryContact.doChainJob = false;
         // Query for the test contact and a test account with BillingState 'CA'
         Contact testContact = [SELECT Id, LastName FROM Contact WHERE Email='test@example.com' LIMIT 1];
         Account testAccountCA = [SELECT Id FROM Account WHERE BillingState='CA' LIMIT 1];

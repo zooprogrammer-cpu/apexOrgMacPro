@@ -1,5 +1,8 @@
 public without sharing class AddPrimaryContact implements Queueable {
 
+    @TestVisible
+    private static Boolean doChainJob = true;
+
     private Contact contact; 
     private String state; 
     public AddPrimaryContact(Contact inputContact, String inputState) {
@@ -23,6 +26,9 @@ public without sharing class AddPrimaryContact implements Queueable {
             contacts.add(contactClone);
         }
 
-        insert contacts; 
+        insert contacts;
+        if (doChainJob) {
+            System.enqueueJob(new AddPrimaryContactSecondQueueable(contacts));
+        }
     }
 }
