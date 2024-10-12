@@ -1,0 +1,8 @@
+<template>
+    <div>
+        <lightning-input type="text" label="Your Name" value={userName} onchange={handleUserNameChange}></lightning-input>
+        <lightning-input type="text" label="Email" value={userEmail} onchange={handleUserEmailChange}></lightning-input>
+        <lightning-input type="text" label="Scheduled User Name" value={scheduledUserName} onchange={handleScheduledUserNameChange}></lightning-input>
+        <lightning-button label="Register Appointment" onclick={registerAppointment}></lightning-button>
+    </div>
+</template>

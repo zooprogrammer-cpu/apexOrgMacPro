@@ -14,4 +14,8 @@ public with sharing class TaskUtility {
         return taskPriority;
     }
   }
+
+    public static void remindOwners(List<Opportunity> opportunities) {
+        
+    }
 }

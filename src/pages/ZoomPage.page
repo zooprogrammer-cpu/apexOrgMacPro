@@ -1,0 +1,7 @@
+<apex:page id="ZoomPage" controller="ZoomController">
+    <apex:form >
+        <apex:inputText value="{!searchQuery}"/>
+        <apex:commandButton value="Search" action="{!getMeetingDetails}"></apex:commandButton>
+    </apex:form>
+    {!body}
+</apex:page>

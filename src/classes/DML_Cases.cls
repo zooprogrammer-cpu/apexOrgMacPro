@@ -10,5 +10,10 @@ public with sharing class DML_Cases {
         Database.update(caseList);
         return caseList;
     }
+    // Original :
+//    public List<Case> updateCases(List<Case> caseList) {
+//        Database.update(caseList);
+//        return caseList;
+//    }
 
 }

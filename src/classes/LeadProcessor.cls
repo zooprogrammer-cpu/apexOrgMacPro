@@ -9,7 +9,7 @@ public with sharing class LeadProcessor {
             ld.LeadSource ='Dreamforce';
         }
 
-        update listOfLeads;
+        update listOfLeads; 
     }
 
 }

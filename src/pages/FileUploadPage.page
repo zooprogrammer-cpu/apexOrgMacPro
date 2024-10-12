@@ -1,0 +1,6 @@
+<apex:page controller="FileUploadController">
+    <apex:form enctype="multipart/form-data">
+        <apex:inputFile value="{!fileBody}" filename="{!fileName}" contentType="{!contentType}"/>
+        <apex:commandButton value="Upload" action="{!uploadFile}"/>
+    </apex:form>
+</apex:page>
