@@ -29,10 +29,13 @@ global class ExploreRestAccountController {
         RestResponse res = RestContext.response;
         Account a = requestPayload.accountRecord;
         insert a;
-        Contact[] c = requestPayload.contactRecords;
-        insert c;
+//        Contact[] c = requestPayload.contactRecords;
+        for (Contact c : requestPayload.contactRecords) {
+            c.AccountId = a.Id;
+        }
+        insert requestPayload.contactRecords;
 
-        if ( a!=null && c!= null) {
+        if ( a!=null) {
             res.statusCode = 200;
             res.responseBody = Blob.valueOf(JSON.serialize(a));
         }
@@ -61,6 +64,6 @@ global class ExploreRestAccountController {
         res.statusCode = 200;
         res.responseBody = Blob.valueOf(recordId + ' got deleted');
 
-    }
+}
 
 }
