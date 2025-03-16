@@ -5,11 +5,11 @@
 public with sharing class PartitionCacheExample {
 
     @AuraEnabled
-    public static void storeDataController() {
-        Contact cont = [SELECT Id, FirstName, LastName, AccountId FROM Contact WHERE Id='0034x00001ziKpmAAE' LIMIT 1];
+    public static void storeDataController(String recordId) {
+        Contact cont = [SELECT Id, FirstName, LastName, AccountId FROM Contact WHERE Id=:recordId LIMIT 1];
 
         // If using default partition, basically creating a map. ContactFound key can be named anything
-        Cache.Session.put('ContactFound', cont);
+//        Cache.Session.put('ContactFound', cont);
 
         // If not using the default partition,
         Cache.Session.put('local.TacoCat.ContactFound', cont );
@@ -33,8 +33,8 @@ public with sharing class PartitionCacheExample {
     }
 
     @AuraEnabled
-    public static Contact retrieveDataSOQLController() {
-       return [SELECT Id, FirstName, LastName, AccountId FROM Contact WHERE Id='0034x00001ziKpmAAE' LIMIT 1];
+    public static Contact retrieveDataSOQLController(String recordId) {
+       return [SELECT Id, FirstName, LastName, AccountId FROM Contact WHERE Id=:recordId LIMIT 1];
 
 
     }
