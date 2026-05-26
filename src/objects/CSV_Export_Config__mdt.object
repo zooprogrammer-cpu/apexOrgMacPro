@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>CSV export configuration records for root-to-related exports.</description>
+    <label>CSV Export Config</label>
+    <pluralLabel>CSV Export Configs</pluralLabel>
+    <visibility>Public</visibility>
+    <fields>
+        <fullName>Config_Key__c</fullName>
+        <description>Stable key for one related-object export definition.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Config Key</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Root_Object_API_Name__c</fullName>
+        <description>API name of root object from screen flow record id, e.g. Account.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Root Object API Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Child_Object_API_Name__c</fullName>
+        <description>API name of related object to export, e.g. Contact.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Child Object API Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Child_Relationship_Field_API_Name__c</fullName>
+        <description>Lookup/master-detail field on child object that points to root record, e.g. AccountId.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Child Relationship Field API Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>File_Name_Template__c</fullName>
+        <description>Supports tokens: {ConfigKey}, {ObjectApiName}, {Date}, {DateTime}.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>File Name Template</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Max_Record_Count__c</fullName>
+        <description>Maximum number of child records allowed for one export file.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Max Record Count</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Only active configs are executed.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Is Active</label>
+        <type>Checkbox</type>
+    </fields>
+</CustomObject>

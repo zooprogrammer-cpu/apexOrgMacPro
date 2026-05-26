@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>CSV export field definitions for each config key.</description>
+    <label>CSV Export Field</label>
+    <pluralLabel>CSV Export Fields</pluralLabel>
+    <visibility>Public</visibility>
+    <fields>
+        <fullName>Config_Key__c</fullName>
+        <description>Join key to CSV_Export_Config__mdt.Config_Key__c.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Config Key</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Field_Path__c</fullName>
+        <description>Field API path, supports relationship traversal e.g. Owner.Manager.Email.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Field Path</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Header_Label__c</fullName>
+        <description>Optional CSV column header override.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Header Label</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sort_Order__c</fullName>
+        <description>Column order in generated CSV.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Sort Order</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Only active field rows are included in export.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Is Active</label>
+        <type>Checkbox</type>
+    </fields>
+</CustomObject>
